@@ -12,7 +12,7 @@ DATABASES = {
         'PORT': os.environ.get('DB_HOST_PORT', '5432'),
         'PASSWORD': os.environ.get('DB_PASS'),
         'TEST': {
-            'NAME': 'mytestdatabase',
+            'NAME': 'test_db',
         },
     }
 }
