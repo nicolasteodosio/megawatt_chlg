@@ -131,9 +131,21 @@ REST_FRAMEWORK = {
     ]
 }
 
+# CELERY
+
+CELERY_BROKER_URL = 'amqp://mega:mega@localhost'
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'redis://localhost/0'
+CELERY_TASK_SERIALIZER = 'json'
+
 
 # ENVS
 MONITORING_URL = os.getenv('MONITORING_URL')
+RABBITMQ_USER = os.getenv('RABBITMQ_USER')
+RABBITMQ_PASS = os.getenv('RABBITMQ_PASS')
 
 # Override with settings_local
 try:

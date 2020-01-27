@@ -4,3 +4,5 @@ djangorestframework==3.11.0
 django-choices==1.7.1
 requests==2.22.0
 python-dotenv==0.10.5
+celery==4.4.0
+redis==3.3.11
