@@ -5,9 +5,12 @@ from django.core.management import BaseCommand, CommandError
 
 from app.models import Plant
 from app.services.monitoring import MonitoringService
+from app.tasks import save_monitor_data
 
 
 # Code extracted from: https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
+
+
 def valid_date(date_string):
     try:
         return datetime.strptime(date_string, "%Y-%m-%d").date()
@@ -34,5 +37,7 @@ class Command(BaseCommand):
 
         monitoring_service = MonitoringService(plant=plant.name, start_date=options['fromdate'],
                                                end_date=options['todate'])
-        data = monitoring_service.pull_data()
-        print(data)
+        monitor_data = monitoring_service.pull_data()
+
+        for data in monitor_data:
+            save_monitor_data.delay(plant.id, data)
