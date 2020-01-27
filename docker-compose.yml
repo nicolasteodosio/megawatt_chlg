@@ -13,6 +13,20 @@ services:
     image: 3megawatt/dev-recruiting-challenge-monitor
     ports:
       - "5000:5000"
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=mega
+      - RABBITMQ_DEFAULT_PASS=mega
+  redis:
+    image: redis
+    command: redis-server
+    ports:
+      - "6379:6379"
+
 volumes:
   data_postgres:
     driver: local
