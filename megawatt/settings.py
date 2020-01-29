@@ -153,9 +153,12 @@ CELERY_BEAT_SCHEDULE = {
 MONITORING_URL = os.getenv('MONITORING_URL')
 RABBITMQ_USER = os.getenv('RABBITMQ_USER')
 RABBITMQ_PASS = os.getenv('RABBITMQ_PASS')
+HEROKU = os.environ.get('HEROKU')
 
 # Override with settings_local
-try:
-    from .settings_local import *
-except ImportError:
-    pass
+
+if not HEROKU:
+    try:
+        from .settings_local import *
+    except ImportError:
+        pass
