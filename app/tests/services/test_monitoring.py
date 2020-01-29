@@ -1,3 +1,4 @@
+import json
 from unittest import mock
 from unittest.mock import Mock
 
@@ -24,7 +25,7 @@ class TestMonitoringService(TestCase):
         self.assertRaises(TypeError, MonitoringService, start_date='2020-02-02', plant='test')
 
     def test_pull_data_successfully(self):
-        self.request_session_mock.return_value.get.return_value = Mock(json={'test': 'test'})
+        self.request_session_mock.return_value.get.return_value.json.return_value = {'test': 'test'}
         monitoring_service = MonitoringService(start_date='2020-02-02', end_date='2020-10-10', plant='test')
 
         data = monitoring_service.pull_data()

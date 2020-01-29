@@ -45,7 +45,7 @@ class TestPlantDetail(TestCase):
         mommy.make(Plant, id=555)
         response = self.client.post(resolve_url('plant_detail', 555))
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 405)
 
     def test_update_plant(self):
         mommy.make(Plant, id=44, name="plant1")
