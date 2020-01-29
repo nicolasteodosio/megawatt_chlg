@@ -10,4 +10,5 @@ COPY . /opt/code
 WORKDIR /opt/code
 RUN pip install pipenv
 RUN pipenv sync
-RUN pipenv run python manage.py migrate
+
+ENTRYPOINT ["/opt/code/entrypoint.sh"]

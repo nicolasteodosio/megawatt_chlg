@@ -1,7 +1,7 @@
 import os
 DEBUG = True
 SECRET_KEY = os.environ.get('SECRET_KEY ', 'teste')
-DOCKER_IP = os.environ.get('DOCKER_IP', 'localhost')
+DOCKER_IP = os.environ.get('DOCKER_IP', 'postgres')
 ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {

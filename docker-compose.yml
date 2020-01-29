@@ -35,12 +35,8 @@ services:
       DOCKER_IP: "postgres"
     links:
       - postgres
-  worker:
-    build: .
-    command: pipenv run celery -A megawatt worker -l info
-  beat:
-    build: .
-    command: pipenv run celery -A megawatt beat -l info
+    depends_on:
+      - postgres
 
 volumes:
   data_postgres:
