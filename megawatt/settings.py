@@ -149,11 +149,27 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 
+
 # ENVS
 MONITORING_URL = os.getenv('MONITORING_URL')
 RABBITMQ_USER = os.getenv('RABBITMQ_USER')
 RABBITMQ_PASS = os.getenv('RABBITMQ_PASS')
 HEROKU = os.environ.get('HEROKU')
+SENTRY_DSN = os.environ.get('SENTRY_DSN')
+
+
+# SENTRY
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 # Override with settings_local
 
