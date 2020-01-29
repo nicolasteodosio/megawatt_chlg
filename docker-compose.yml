@@ -26,6 +26,21 @@ services:
     command: redis-server
     ports:
       - "6379:6379"
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    command: pipenv run python manage.py runserver 0.0.0.0:8000
+    environment:
+      DOCKER_IP: "postgres"
+    links:
+      - postgres
+  worker:
+    build: .
+    command: pipenv run celery -A megawatt worker -l info
+  beat:
+    build: .
+    command: pipenv run celery -A megawatt beat -l info
 
 volumes:
   data_postgres:
