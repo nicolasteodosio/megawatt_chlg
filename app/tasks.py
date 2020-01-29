@@ -1,4 +1,8 @@
-from app.models import Report
+from datetime import datetime, timedelta
+
+from django.core.management import call_command
+
+from app.models import Report, Plant
 from megawatt.celery import app
 
 
@@ -23,5 +27,22 @@ def save_monitor_data(self, plant_id, msg):
             defaults={'expected': dict_to_create['energy']['expected'],
                       'observed': dict_to_create['energy']['observed'], })
 
+    except Exception as e:
+        raise self.retry(exc=e)
+
+
+@app.task(bind=True)
+def daily_get_plants_monitor_data(self):
+    try:
+        today = datetime.now().date()
+        yesterday = today - timedelta(days=1)
+
+        for plant in Plant.objects.all():
+            params = {'name': plant.name,
+                      'fromdate': yesterday,
+                      'todate': today,
+                      }
+
+            call_command('pull_data', **params)
     except Exception as e:
         raise self.retry(exc=e)

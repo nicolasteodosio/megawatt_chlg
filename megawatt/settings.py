@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from celery.schedules import crontab
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -140,6 +141,12 @@ CELERY_BROKER_URL = 'amqp://mega:mega@localhost'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'redis://localhost/0'
 CELERY_TASK_SERIALIZER = 'json'
+CELERY_BEAT_SCHEDULE = {
+    'daily_get_plants_monitor_data': {
+        'task': 'app.tasks.daily_get_plants_monitor_data',
+        'schedule': crontab(minute=0, hour=0)
+    }
+}
 
 
 # ENVS

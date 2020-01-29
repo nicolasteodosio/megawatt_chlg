@@ -1,11 +1,13 @@
 from datetime import datetime
+from unittest import mock
 
 from django.test import TestCase
 from freezegun import freeze_time
+from freezegun.api import FakeDate
 from model_mommy import mommy
 
 from app.models import Plant, Report
-from app.tasks import save_monitor_data
+from app.tasks import save_monitor_data, daily_get_plants_monitor_data
 
 
 class TestSaveMonitorData(TestCase):
@@ -78,3 +80,23 @@ class TestSaveMonitorData(TestCase):
         self.assertTrue(Report.objects.filter(plant_id=4).exists())
         self.assertEqual(Report.objects.filter(plant_id=4).count(), 2)
         self.assertEqual(Report.objects.get(plant_id=4, type='Energy', monitoring_date=datetime.now()).expected, 16.4)
+
+
+class TestDailyGetMonitorData(TestCase):
+
+    def setUp(self) -> None:
+        self.mock_command = mock.patch('app.tasks.call_command').start()
+
+    def tearDown(self) -> None:
+        mock.patch.stopall()
+
+    def test_dont_call_command_when_dont_have_plants(self):
+        daily_get_plants_monitor_data()
+        self.mock_command.assert_not_called()
+
+    @freeze_time('2020-10-10')
+    def test_call_command(self):
+        mommy.make(Plant, name='test')
+        daily_get_plants_monitor_data()
+        self.mock_command.assert_called_once_with('pull_data', fromdate=FakeDate(2020, 10, 9), name='test',
+                                                  todate=FakeDate(2020, 10, 10))
