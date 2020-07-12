@@ -63,7 +63,7 @@ Then any commit made in the `MASTER` branch triggers` SEMAPHORECI` that runs the
 * I will list here some things I would have liked to have done, but I couldn't because of the time:
     * Would use https://github.com/PyCQA/bandit for security check
     * I would not deploy to heroku, but to AWS using https://github.com/Miserlou/Zappa
-    * Add the project to SonarQube https://www.sonarqube.org/, to track code smelss, bugs and coverage
+    * Add the project to SonarQube https://www.sonarqube.org/, to track code smells, bugs and coverage
     * I would pay more attention to django admin, I believe it is an excellent tool if done well
     * I created the application in HEROKU, but unfortunately it is not working properly, I believe it was necessary to perform a migrate to the database
     * Add django cache using redis for the API
