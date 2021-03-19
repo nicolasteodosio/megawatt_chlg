@@ -7,7 +7,7 @@ verify_ssl = true
 
 [packages]
 psycopg2 = "==2.8.4"
-djangorestframework = "==3.11.0"
+djangorestframework = "==3.11.2"
 django-choices = "==1.7.1"
 requests = "==2.22.0"
 python-dotenv = "==0.10.5"
